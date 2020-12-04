@@ -1,7 +1,7 @@
 const puppeteer = require('puppeteer');
 const fs = require('fs');
 
-(async () => {
+export default async function getCrawl() {
   const browser = await puppeteer.launch({
     headless: false,
   });
@@ -27,7 +27,8 @@ const fs = require('fs');
       if (e.getElementsByClassName('card_cell ended').length === 0) {
         mapDatas.push({
           index: i,
-          link: e.getElementsByTagName('img')[0].getAttribute('src'),
+          link: e.getElementsByTagName('a')[0].getAttribute('href'),
+          imgLink: e.getElementsByTagName('img')[0].getAttribute('src'),
         });
       }
     });
@@ -37,14 +38,17 @@ const fs = require('fs');
 
   console.log(drawDatas);
 
-  fs.writeFile('data.json', JSON.stringify(drawDatas), (err) => {
-    try {
-      console.log('done');
-    } catch {
-      console.log(err);
-      throw err;
-    }
-  });
+  // fs 파트 나중에 사용
+  // fs.writeFile('data.json', JSON.stringify(drawDatas), (err) => {
+  //   try {
+  //     console.log('done');
+  //   } catch {
+  //     console.log(err);
+  //     throw err;
+  //   }
+  // });
 
   browser.close();
-})();
+}
+
+getCrawl();
