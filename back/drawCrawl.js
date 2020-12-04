@@ -1,27 +1,54 @@
-const puppeteer = require("puppeteer");
-const fs = require("fs");
+const puppeteer = require('puppeteer');
+const fs = require('fs');
 
-(async () => {
-	const browser = await puppeteer.launch({
-		headless: false,
-	});
+export default async function drawCrawl() {
+  const browser = await puppeteer.launch({
+    headless: true,
+  });
 
-	const page = await browser.newPage();
+  const page = await browser.newPage();
 
-	await page.setViewport({
-		width: 1000,
-		height: 700,
-	});
+  await page.setViewport({
+    width: 1000,
+    height: 700,
+  });
 
-	await page.goto("https://www.luck-d.com/release-raffle/");
+  await page.goto('https://www.luck-d.com/release-raffle/');
 
-	// const content = await page.content();
+  await page.mouse.wheel({ deltaY: 2000 });
 
-	const data = await page.$$eval(".gallery_cell_layer", (e) => {
-		e.map((e) => {
-			if (e.getElementsByClassName("card_cell ended").length === 0) {
-				console.log(e);
-			}
-		});
-	});
-})();
+  await page.waitForTimeout(2000).then(() => console.log('data load'));
+  // const content = await page.content();
+
+  const drawDatas = await page.$$eval('.gallery_cell_layer', (e) => {
+    return e.map((e, i) => {
+      if (e.getElementsByClassName('card_cell ended').length === 0) {
+        return {
+          index: i,
+          link: e.getElementsByTagName('a')[0].getAttribute('href'),
+          imgLink: e.getElementsByTagName('img')[0].getAttribute('src'),
+        };
+      }
+    });
+  });
+
+  const filterDatas = await drawDatas.filter((e) => e !== null);
+
+  console.log(filterDatas);
+
+  await browser.close();
+
+  return {
+    status: 200,
+    body: JSON.stringify(filterDatas),
+  };
+  // fs 파트 나중에 사용
+  // fs.writeFile('data.json', JSON.stringify(drawDatas), (err) => {
+  //   try {
+  //     console.log('done');
+  //   } catch {
+  //     console.log(err);
+  //     throw err;
+  //   }
+  // });
+}
