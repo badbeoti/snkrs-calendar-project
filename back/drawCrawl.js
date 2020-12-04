@@ -1,9 +1,9 @@
 const puppeteer = require('puppeteer');
 const fs = require('fs');
 
-export default async function getCrawl() {
+export default async function drawCrawl() {
   const browser = await puppeteer.launch({
-    headless: false,
+    headless: true,
   });
 
   const page = await browser.newPage();
@@ -21,23 +21,27 @@ export default async function getCrawl() {
   // const content = await page.content();
 
   const drawDatas = await page.$$eval('.gallery_cell_layer', (e) => {
-    let mapDatas = [];
-
-    e.map((e, i) => {
+    return e.map((e, i) => {
       if (e.getElementsByClassName('card_cell ended').length === 0) {
-        mapDatas.push({
+        return {
           index: i,
           link: e.getElementsByTagName('a')[0].getAttribute('href'),
           imgLink: e.getElementsByTagName('img')[0].getAttribute('src'),
-        });
+        };
       }
     });
-
-    return mapDatas;
   });
 
-  console.log(drawDatas);
+  const filterDatas = await drawDatas.filter((e) => e !== null);
 
+  console.log(filterDatas);
+
+  await browser.close();
+
+  return {
+    status: 200,
+    body: JSON.stringify(filterDatas),
+  };
   // fs 파트 나중에 사용
   // fs.writeFile('data.json', JSON.stringify(drawDatas), (err) => {
   //   try {
@@ -47,8 +51,4 @@ export default async function getCrawl() {
   //     throw err;
   //   }
   // });
-
-  browser.close();
 }
-
-getCrawl();
