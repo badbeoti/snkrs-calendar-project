@@ -17,7 +17,7 @@ export default async function drawCrawl() {
 
   await page.mouse.wheel({ deltaY: 2000 });
 
-  await page.waitForTimeout(2000).then(() => console.log('data load'));
+  await page.waitForTimeout(1000).then(() => console.log('data load'));
   // const content = await page.content();
 
   const drawDatas = await page.$$eval('.gallery_cell_layer', (e) => {
@@ -38,17 +38,18 @@ export default async function drawCrawl() {
 
   await browser.close();
 
+  // fs 파트 나중에 사용
+  fs.writeFile('drawLoadData.json', JSON.stringify(filterDatas), (err) => {
+    try {
+      console.log('done');
+    } catch {
+      console.log(err);
+      throw err;
+    }
+  });
+
   return {
     status: 200,
     body: JSON.stringify(filterDatas),
   };
-  // fs 파트 나중에 사용
-  // fs.writeFile('data.json', JSON.stringify(drawDatas), (err) => {
-  //   try {
-  //     console.log('done');
-  //   } catch {
-  //     console.log(err);
-  //     throw err;
-  //   }
-  // });
 }

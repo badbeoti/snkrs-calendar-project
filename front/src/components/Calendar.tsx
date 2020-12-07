@@ -1,20 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import { Image, Calendar, Badge } from 'antd';
+import React from 'react';
+import { Badge } from 'antd';
 import styled from 'styled-components';
-import './App.css';
 
-declare module 'styled-components' {
-  export interface DefaultTheme {}
-}
-
-interface dataFace {
-  index: number;
-  link: string;
-  imgLink: string;
-}
-
-const TestSection: any = styled.div`
+export const TestSection: any = styled.div`
   .events {
     list-style: none;
     margin: 0;
@@ -67,7 +55,7 @@ function getListData(value: any) {
   return listData || [];
 }
 
-function dateCellRender(value: any) {
+export function dateCellRender(value: any) {
   const listData = getListData(value);
   return (
     <ul className="events">
@@ -86,7 +74,7 @@ function getMonthData(value: any) {
   }
 }
 
-function monthCellRender(value: any) {
+export function monthCellRender(value: any) {
   const num = getMonthData(value);
   return num ? (
     <div className="notes-month">
@@ -95,30 +83,3 @@ function monthCellRender(value: any) {
     </div>
   ) : null;
 }
-
-function App() {
-  const [data, setData] = useState<dataFace[] | null>([]);
-  useEffect(() => {
-    async function get() {
-      const result = await axios.get('http://localhost:4000');
-      setData(result.data);
-    }
-    get();
-  }, []);
-  return (
-    <TestSection>
-      {data!.map((e, i) => (
-        <div key={i}>
-          {e.link}
-          <Image width={'200px'} height={'200px'} src={e.imgLink}></Image>
-        </div>
-      ))}
-      <Calendar
-        dateCellRender={dateCellRender}
-        monthCellRender={monthCellRender}
-      />
-    </TestSection>
-  );
-}
-
-export default App;
