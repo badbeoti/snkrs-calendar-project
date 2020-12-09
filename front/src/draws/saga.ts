@@ -13,10 +13,10 @@ function* getDrawsListSaga(action: ReturnType<typeof drawsAsync.request>) {
 
 function* getDrawsDataSaga(action: ReturnType<typeof dataAsync.request>) {
   try {
-    const drawsList: DrawsData = yield call(getDrawsData, action.payload);
-    yield put(drawsAsync.success(drawsList));
+    const dataList: DrawsData = yield call(getDrawsData, action.payload);
+    yield put(dataAsync.success(dataList));
   } catch (error) {
-    yield put(drawsAsync.failure(error));
+    yield put(dataAsync.failure(error));
   }
 }
 

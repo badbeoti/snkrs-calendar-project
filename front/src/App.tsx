@@ -7,7 +7,7 @@ import {
   TestSection,
   monthCellRender,
 } from './components/Calendar';
-import DrawsTest from './components/DrawsTest';
+import Draws from './components/Draws';
 
 declare module 'styled-components' {
   export interface DefaultTheme {}
@@ -37,21 +37,7 @@ function App() {
   };
   return (
     <TestSection>
-      <DrawsTest></DrawsTest>
-      {data!.map((e, i) => (
-        <div
-          style={{ display: 'inline-block' }}
-          key={i}
-          onClick={() => onClick(i)}
-        >
-          <Image
-            preview={false}
-            width={'200px'}
-            height={'200px'}
-            src={e.imgLink}
-          ></Image>
-        </div>
-      ))}
+      <Draws></Draws>
       <Calendar
         dateCellRender={dateCellRender}
         monthCellRender={monthCellRender}
