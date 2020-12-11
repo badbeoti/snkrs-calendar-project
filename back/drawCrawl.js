@@ -3,6 +3,7 @@ const fs = require('fs');
 
 export default async function drawCrawl() {
   const browser = await puppeteer.launch({
+    args: ['--no-sandbox', '--disable-setuid-sandbox'],
     headless: true,
   });
 
