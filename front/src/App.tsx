@@ -1,48 +1,32 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import { Image, Calendar } from 'antd';
+import React from 'react';
 import './App.css';
-import {
-  dateCellRender,
-  TestSection,
-  monthCellRender,
-} from './components/Calendar';
+import styled from 'styled-components';
 import Draws from './components/Draws';
+import Loading from './components/Loading';
+import useDraws from './hooks/useDraws';
+import useData from './hooks/useData';
+
+const AppSection: any = styled.div`
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+`;
 
 declare module 'styled-components' {
   export interface DefaultTheme {}
 }
 
-interface dataFace {
-  index: number;
-  link: string;
-  imgLink: string;
-}
-
 function App() {
-  const [data, setData] = useState<dataFace[] | null>([]);
-  useEffect(() => {
-    async function get() {
-      const result = await axios.get('http://localhost:4000');
-      console.log(result.data);
-      setData(result.data);
-    }
-    get();
-  }, []);
-
-  const onClick = async (i: number) => {
-    console.log(i);
-    const result = await axios.get(`http://localhost:4000/${i}`);
-    console.log(result.data);
-  };
+  const { drawsList } = useDraws();
+  const { drawsData } = useData();
   return (
-    <TestSection>
+    <AppSection>
+      {drawsList.loading && <Loading></Loading>}
+      {drawsData.loading && <Loading></Loading>}
       <Draws></Draws>
-      <Calendar
-        dateCellRender={dateCellRender}
-        monthCellRender={monthCellRender}
-      />
-    </TestSection>
+    </AppSection>
   );
 }
 
