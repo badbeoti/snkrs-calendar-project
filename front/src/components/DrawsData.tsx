@@ -30,8 +30,13 @@ export default function DrawsDataComponent() {
             }
             title={e.title}
           >
-            <a target={'_blank'} href={e.link} style={{ width: '1fr' }}>
-              <Image width={200} preview={false} src={e.imgLink}></Image>
+            <a target="_blank" href={e.link} style={{ width: '1fr' }}>
+              <Image
+                style={{ marginBottom: '1rem' }}
+                width={200}
+                preview={false}
+                src={e.imgLink}
+              ></Image>
             </a>
           </Popover>
         ))
