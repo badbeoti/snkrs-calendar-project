@@ -2,7 +2,7 @@
 
 > 스니커즈를 좋아하는 사람이라면 필요할법한 발매 정보(Draws)를 모아서 보여주는 프로젝트입니다.
 
-![capture](https://images.velog.io/images/badbeoti/post/bf2f0eca-fa2c-45ed-9953-09d92de4de64/%ED%99%94%EB%A9%B4%20%EC%BA%A1%EC%B2%98%202020-12-16%20122118.png)
+![capture](https://images.velog.io/images/badbeoti/post/c7060fa7-7517-4963-81e0-16ddd68108f3/%ED%99%94%EB%A9%B4%20%EC%BA%A1%EC%B2%98%202020-12-16%20144453.png)
 
 ### Use skill
 
