@@ -1,9 +1,6 @@
 const puppeteer = require('puppeteer');
-const drawLoadData = require('./drawLoadData.json');
 
 export default async function drawPages(id) {
-  const selectLink = drawLoadData[id].link;
-
   const browser = await puppeteer.launch({
     args: ['--no-sandbox', '--disable-setuid-sandbox'],
     headless: true,
@@ -15,6 +12,29 @@ export default async function drawPages(id) {
     width: 1000,
     height: 700,
   });
+
+  await page.goto('https://www.luck-d.com/release-raffle/');
+
+  await page.mouse.wheel({ deltaY: 2000 });
+
+  await page.waitForTimeout(1000).then(() => console.log('data load'));
+  // const content = await page.content();
+
+  const selectDrawDatas = await page.$$eval('.gallery_cell_layer', (e) => {
+    return e.map((e, i) => {
+      if (e.getElementsByClassName('card_cell ended').length === 0) {
+        return {
+          index: i,
+          link: e.getElementsByTagName('a')[0].getAttribute('href'),
+          imgLink: e.getElementsByTagName('img')[0].getAttribute('src'),
+        };
+      }
+    });
+  });
+
+  const filterDatas = await selectDrawDatas.filter((e) => e !== null);
+
+  const selectLink = filterDatas[id].link;
 
   await page.goto(`https://www.luck-d.com${selectLink}`);
 
