@@ -1,12 +1,12 @@
 import axios from 'axios';
 
 export async function getDrawsList() {
-  const response = await axios.get<DrawsList>('http://13.124.245.45:4000/');
+  const response = await axios.get<DrawsList>('http://54.180.120.54:4000/');
   return response.data;
 }
 
 export async function getDrawsData(i: number) {
-  const response = await axios.get<DrawsData>(`http://13.124.245.45:4000/${i}`);
+  const response = await axios.get<DrawsData>(`http://54.180.120.54:4000/${i}`);
   return response.data;
 }
 
